@@ -1,7 +1,7 @@
 pipeline {
     agent any
 
-    enviroment {
+    environment {
         teste = sh(script: 'git rev-parse --short HEAD', returnStdout: true)
     }
 
