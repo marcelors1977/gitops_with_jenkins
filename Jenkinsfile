@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Get Source Code and hash generate') {
             steps{
-                git url: 'https://github.com/marcelors1977/gitops_with_jenkins.git', branch: 'master';
-                def getCommitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true)
+                git url: 'https://github.com/marcelors1977/gitops_with_jenkins.git', branch: 'master'
+                // def getCommitHash = sh(script: 'git rev-parse --short HEAD', returnStdout: true)
             }
 
             // steps{
