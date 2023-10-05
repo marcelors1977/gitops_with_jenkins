@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('Get Source Code') {
             steps{
-                git url: ${git_url}, branch: 'master'
+                git url: "${git_url}", branch: 'master'
             }
         }
         stage('Get Hash of Source Code') {
