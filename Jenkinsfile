@@ -11,7 +11,7 @@ pipeline {
                 git url: 'https://github.com/marcelors1977/gitops_with_jenkins.git', branch: 'master'                
             }
 
-            println "Hash: ${env.teste}"
+            sh("echo ${env.teste}")
         }
 
     }
