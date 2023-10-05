@@ -24,7 +24,7 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build("${dockerhub_url}:${env.GIT_COMMIT_HASH}"
-                    , '-f ./gowebserver_with_jenkins/Dockerfile .')
+                    , '-f ./Dockerfile .')
                 }
             }
         }
