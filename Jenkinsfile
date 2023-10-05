@@ -10,7 +10,7 @@ pipeline {
         stage('Get Hash of Source Code') {
             steps {
                 script {
-                    env.GIT_COMMIT_HASH = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                    env.GIT_COMMIT_HASH = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
                     sh('echo $GIT_COMMIT_HASH')
                 }
             }
