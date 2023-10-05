@@ -33,8 +33,8 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("${dockerhub_url}", 'dockerhub') {
-                        dockerhub.push('latest')
-                        dockerhub.push("${env.GIT_COMMIT_HASH}")
+                        dockerImage.push('latest')
+                        dockerImage.push("${env.GIT_COMMIT_HASH}")
                     }
                 }
             }
