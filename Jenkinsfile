@@ -13,7 +13,7 @@ pipeline {
         }
         stage('get sha') {
             steps{
-                sh(script: 'ls -la | wc -l', returnStdout: true)
+                def commitHash = sh(script: 'ls -la | wc -l', returnStdout: true)
             }
         }
     }
