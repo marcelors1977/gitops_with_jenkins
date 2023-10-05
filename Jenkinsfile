@@ -14,5 +14,6 @@ pipeline {
                     sh('echo $GIT_COMMIT_HASH')
                 }
             }
+        }
     }
 }
