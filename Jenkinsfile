@@ -8,11 +8,9 @@ pipeline {
     stages {
         stage('Get Source Code and hash generate') {
             steps{
-                git url: 'https://github.com/marcelors1977/gitops_with_jenkins.git', branch: 'master'                
+                git url: 'https://github.com/marcelors1977/gitops_with_jenkins.git', branch: 'master'
+                sh('echo $teste')
             }
-
-            sh("echo ${env.teste}")
         }
-
     }
 }
