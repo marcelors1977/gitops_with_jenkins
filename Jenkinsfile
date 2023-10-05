@@ -13,7 +13,7 @@ pipeline {
         }
         stage('get sha') {
             steps{
-                teste = sh(script: 'ls -la | wc -l', returnStdout: true)
+                sh(script: 'ls -la | wc -l', returnStdout: true)
             }
         }
     }
