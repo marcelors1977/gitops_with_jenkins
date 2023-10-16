@@ -4,7 +4,7 @@ pipeline {
     }
     environment {
         git_url = 'https://github.com/marcelors1977/gitops_with_jenkins.git'
-        dockerhubRegistry = 'https://registry.hub.docker.com'
+        dockerhubRegistry = 'https://index.docker.io/v1'
         dockerhub_url = '19061977/gitops_with_jenkins'
     }
 
