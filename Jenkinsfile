@@ -49,7 +49,7 @@ pipeline {
         stage('Update Kubernetes resources') {
             steps {
                 script {
-                    sh "cd ./k8s && kustomize edit set image goserver=${dockerImage.id}"
+                    sh "cd ./k8s && /home/marcelo/bin/kustomize edit set image goserver=${dockerImage.id}"
                 }
             }
         }
