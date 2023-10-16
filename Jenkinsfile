@@ -1,7 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        label 'agent1'
+    }
     environment {
         git_url = 'https://github.com/marcelors1977/gitops_with_jenkins.git'
+        dockerhubRegistry = 'https://registry.hub.docker.com'
         dockerhub_url = '19061977/gitops_with_jenkins'
     }
 
@@ -11,6 +14,7 @@ pipeline {
                 git url: "${git_url}", branch: 'master'
             }
         }
+        
         stage('Get Hash of Source Code') {
             steps {
                 script {
@@ -23,8 +27,10 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    dockerImage = docker.build("${dockerhub_url}:${env.GIT_COMMIT_HASH}"
+                    docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
+                        dockerImage = docker.build("${dockerhub_url}:${env.GIT_COMMIT_HASH}"
                     , '-f ./Dockerfile .')
+                    }
                 }
             }
         }
@@ -32,9 +38,27 @@ pipeline {
         stage('Push Docker Image') {
             steps {
                 script {
-                    docker.withRegistry("${dockerhub_url}", 'dockerhub') {
+                    docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
                         dockerImage.push('latest')
                         dockerImage.push("${env.GIT_COMMIT_HASH}")
+                    }
+                }
+            }
+        }
+        
+        stage('Update Kubernetes resources') {
+            steps {
+                script {
+                    sh "cd ./k8s && kustomize edit set image goserver=${dockerImage.id}"
+                }
+            }
+        }
+
+        stage('Purge image created') {
+            steps {
+                script {
+                    docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
+                      sh "docker rmi ${dockerImage.id}"
                     }
                 }
             }
