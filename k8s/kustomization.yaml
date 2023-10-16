@@ -7,5 +7,5 @@ resources:
 - service.yaml
 images:
 - name: goserver
-  newName: 19061977/gitopsfc
-  newTag: 2bbc3d63425771622f67f9601fdce2e2eacf2de8
+  newName: 19061977/gitops_with_jenkins
+  newTag: bb1fabc1e32330500e37277095a6100f7a8b5ba4
