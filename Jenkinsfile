@@ -4,7 +4,7 @@ pipeline {
     }
     environment {
         git_url = 'https://github.com/marcelors1977/gitops_with_jenkins.git'
-        dockerhubRegistry = 'https://index.docker.io/v1'
+        dockerhubRegistry = 'https://registry.hub.docker.com'
         dockerhub_url = '19061977/gitops_with_jenkins'
     }
 
@@ -28,7 +28,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
-                        dockerImage = docker.build("${dockerhub_url}:${env.GIT_COMMIT_HASH}"
+                        dockerImage = docker.build("${dockerhub_url}"
                     , '-f ./Dockerfile .')
                     }
                 }
@@ -54,14 +54,14 @@ pipeline {
             }
         }
 
-        stage('Purge image created') {
-            steps {
-                script {
-                    docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
-                      sh "docker rmi ${dockerImage.id}"
-                    }
-                }
-            }
-        }
+        // stage('Purge image created') {
+        //     steps {
+        //         script {
+        //             docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
+        //               sh "docker rmi ${dockerImage.id}"
+        //             }
+        //         }
+        //     }
+        // }
     }
 }
