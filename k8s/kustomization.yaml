@@ -8,4 +8,4 @@ resources:
 images:
 - name: goserver
   newName: registry.hub.docker.com/19061977/gitops_with_jenkins
-  newTag: 780b7623258ff20ac6296853721c04cf67fdb0a9
+  newTag: 6733e2167b52b40c4e1e2966fc380c3eceef9b02
