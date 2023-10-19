@@ -3,15 +3,17 @@ pipeline {
         label 'agent1'
     }
     environment {
-        git_url = 'https://github.com/marcelors1977/gitops_with_jenkins.git'
+        GIT_CREDENTIALS = credentials('git_access')
+        gitrepo = 'github.com/marcelors1977/gitops_with_jenkins.git'
         dockerhubRegistry = 'https://registry.hub.docker.com'
         dockerhub_url = '19061977/gitops_with_jenkins'
+        PATH = "$PATH:/home/marcelo/bin"
     }
 
     stages {
         stage('Get Source Code') {
             steps{
-                git url: "${git_url}", branch: 'master'
+                git url: "https://${gitrepo}", branch: 'master', credentialsId: 'git_access'
             }
         }
         
@@ -19,7 +21,6 @@ pipeline {
             steps {
                 script {
                     env.GIT_COMMIT_HASH = sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
-                    sh('echo $GIT_COMMIT_HASH')
                 }
             }
         }
@@ -40,7 +41,7 @@ pipeline {
                 script {
                     docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
                         dockerImage.push('latest')
-                        dockerImage.push("${env.GIT_COMMIT_HASH}")
+                        dockerImage.push("${GIT_COMMIT_HASH}")
                     }
                 }
             }
@@ -49,19 +50,28 @@ pipeline {
         stage('Update Kubernetes resources') {
             steps {
                 script {
-                    sh "cd ./k8s && /home/marcelo/bin/kustomize edit set image goserver=${dockerImage.id}"
+                    sh "cd ./k8s && kustomize edit set image goserver=${dockerImage.id}:${GIT_COMMIT_HASH}"
                 }
             }
         }
 
-        // stage('Purge image created') {
-        //     steps {
-        //         script {
-        //             docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
-        //               sh "docker rmi ${dockerImage.id}"
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Push changes on Github') {
+            steps {
+                    sh('git add ./k8s/kustomization.yaml')
+                    sh("git commit -m 'push new version of kustomization file to git'")
+                    sh('git push https://$GIT_CREDENTIALS_PSW@${gitrepo}')
+            }
+        }
+
+        stage('Purge image created') {
+            steps {
+                script {
+                    // docker.withRegistry("${dockerhubRegistry}", 'dockerhub') {
+                        sh "docker rmi ${dockerImage.id}:latest"
+                        sh "docker rmi ${dockerImage.id}:${GIT_COMMIT_HASH}"
+                    // }
+                }
+            }
+        }
     }
 }
