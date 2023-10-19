@@ -6,7 +6,7 @@ pipeline {
         GIT_CREDENTIALS = credentials('git_access')
         gitrepo = 'github.com/marcelors1977/gitops_with_jenkins.git'
         dockerhubRegistry = 'https://registry.hub.docker.com'
-        dockerhub_url = '19061977/gitops_with_jenkins'
+        dockerhub_url = 'registry.hub.docker.com/19061977/gitops_with_jenkins'
         PATH = "$PATH:/home/marcelo/bin"
     }
 
