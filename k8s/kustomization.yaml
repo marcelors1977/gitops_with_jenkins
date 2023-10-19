@@ -7,5 +7,5 @@ resources:
 - service.yaml
 images:
 - name: goserver
-  newName: 19061977/gitops_with_jenkins
-  newTag: d2c39511e7576053422d48afa150b2d83af3a9be
+  newName: registry.hub.docker.com/19061977/gitops_with_jenkins
+  newTag: 780b7623258ff20ac6296853721c04cf67fdb0a9
