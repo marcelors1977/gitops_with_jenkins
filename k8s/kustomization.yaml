@@ -8,4 +8,4 @@ resources:
 images:
 - name: goserver
   newName: 19061977/gitops_with_jenkins
-  newTag: f7680cd2002b33aee6933faa8a33f3738b0047f2
+  newTag: d8a8bb880fb066790ba11747f2923ac6b6278d57
