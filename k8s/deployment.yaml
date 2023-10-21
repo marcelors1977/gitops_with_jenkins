@@ -5,7 +5,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: goserver
+      app: goserver 
   template:
     metadata:
       labels:
@@ -13,6 +13,7 @@ spec:
     spec:
       containers:
       - name: goserver
-        image: goserver
+      # change image to goserver if run pipeline using GitOps with ArgoCD
+        image: registry.hub.docker.com/19061977/gitops_with_jenkins:{{tag}} 
         ports:
         - containerPort: 8081
